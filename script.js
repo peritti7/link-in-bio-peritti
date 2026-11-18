@@ -1,14 +1,15 @@
+document.getElementById('current-year').textContent = new Date().getFullYear();
+
 const canvas = document.getElementById('bg-canvas');
 const ctx = canvas.getContext('2d');
 
-let particles = [];
-const particleCount = 45;
+let particlesArray = [];
+let numberOfParticles = 50;
 
 function resizeCanvas() {
     canvas.width = window.innerWidth;
     canvas.height = window.innerHeight;
 }
-
 window.addEventListener('resize', resizeCanvas);
 resizeCanvas();
 
@@ -16,54 +17,50 @@ class Particle {
     constructor() {
         this.x = Math.random() * canvas.width;
         this.y = Math.random() * canvas.height;
-        this.vx = (Math.random() - 0.5) * 0.6;
-        this.vy = (Math.random() - 0.5) * 0.6;
-        this.radius = Math.random() * 1.5 + 0.5;
+        this.size = Math.random() * 1.5 + 0.5;
+        this.speedX = (Math.random() - 0.5) * 0.5;
+        this.speedY = (Math.random() - 0.5) * 0.5;
     }
-
     update() {
-        this.x += this.vx;
-        this.y += this.vy;
-
-        if (this.x < 0) this.x = canvas.width;
+        this.x += this.speedX;
+        this.y += this.speedY;
         if (this.x > canvas.width) this.x = 0;
-        if (this.y < 0) this.y = canvas.height;
+        if (this.x < 0) this.x = canvas.width;
         if (this.y > canvas.height) this.y = 0;
+        if (this.y < 0) this.y = canvas.height;
     }
-
     draw() {
+        ctx.fillStyle = 'rgba(59, 130, 246, 0.25)';
         ctx.beginPath();
-        ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2);
-        ctx.fillStyle = 'rgba(99, 102, 241, 0.35)';
+        ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
         ctx.fill();
     }
 }
 
 function initParticles() {
-    particles = [];
-    for (let i = 0; i < particleCount; i++) {
-        particles.push(new Particle());
+    particlesArray = [];
+    for (let i = 0; i < numberOfParticles; i++) {
+        particlesArray.push(new Particle());
     }
 }
 
 function animateParticles() {
     ctx.clearRect(0, 0, canvas.width, canvas.height);
-    
-    for (let i = 0; i < particles.length; i++) {
-        particles[i].update();
-        particles[i].draw();
-
-        for (let j = i + 1; j < particles.length; j++) {
-            const dx = particles[i].x - particles[j].x;
-            const dy = particles[i].y - particles[j].y;
+    for (let i = 0; i < particlesArray.length; i++) {
+        particlesArray[i].update();
+        particlesArray[i].draw();
+        
+        // Łączenie bliskich cząsteczek delikatnymi liniami
+        for (let j = i; j < particlesArray.length; j++) {
+            const dx = particlesArray[i].x - particlesArray[j].x;
+            const dy = particlesArray[i].y - particlesArray[j].y;
             const distance = Math.sqrt(dx * dx + dy * dy);
-
-            if (distance < 120) {
+            if (distance < 100) {
+                ctx.strokeStyle = `rgba(59, 130, 246, ${0.08 * (1 - distance / 100)})`;
+                ctx.lineWidth = 0.5;
                 ctx.beginPath();
-                ctx.moveTo(particles[i].x, particles[i].y);
-                ctx.lineTo(particles[j].x, particles[j].y);
-                ctx.strokeStyle = `rgba(99, 102, 241, ${0.15 * (1 - distance / 120)})`;
-                ctx.lineWidth = 0.8;
+                ctx.moveTo(particlesArray[i].x, particlesArray[i].y);
+                ctx.lineTo(particlesArray[j].x, particlesArray[j].y);
                 ctx.stroke();
             }
         }
@@ -77,53 +74,37 @@ animateParticles();
 const translations = {
     pl: {
         subtitle: "Inżynier Elektryk & Programista",
-        bio: "Połączenie precyzji systemów elektrycznych z nowoczesnym kodem. Tworzę wydajne rozwiązania i dominuję w świecie Minecraft PvP.",
-        contactBtn: "Kontakt",
-        card1Title: "Inżynieria Elektryczna",
-        card1Desc: "Profesjonalne podejście do układów, systemów zasilania oraz projektowania sprzętowego. Łączę teorię inżynieryjną z praktyką.",
-        card2Title: "Programowanie",
-        card2Desc: "Czysty kod, automatyzacja, tworzenie nowoczesnych stron i aplikacji webowych opartych o najnowsze technologie.",
-        mcDesc: "Posiadam rangę <span class='text-white font-bold bg-accent/20 border border-accent/30 px-2 py-0.5 rounded'>HT3 (High-Tier 3)</span> w mechanice Crystal PvP w Minecrafcie. Refleks, pozycjonowanie i zaawansowane comba nie mają dla mnie tajemnic.",
-        contactTitle: "Połącz się ze mną",
-        contactSubtitle: "Szukasz kogoś do projektu, chcesz pogadać o technologii albo sprawdzić się w potyczce PvP? Pisz śmiało!"
+        bio: "Tworzę nowoczesny kod, projektuję systemy i spędzam czas na optymalizacjach. Witaj w moim cyfrowym świecie.",
+        skills_eng_title: "Inżynieria Elektryczna",
+        skills_eng_desc: "Wykształcenie inżynierskie, projektowanie układów, automatyka i praktyczna wiedza sprzętowa.",
+        skills_dev_title: "Programowanie & Web",
+        skills_dev_desc: "Tworzenie aplikacji, nowoczesny webdev, dbałość o czystość kodu oraz szybki deployment przez Cloudflare.",
+        mc_title: "Minecraft PvP",
+        mc_subtitle: "Crystal PvP Experience",
+        mc_desc: "Posiadam rangę HT3 na scenie Crystal PvP. Wysoki poziom refleksu, optymalizacja ustawień i setki stoczonych walk.",
+        links_title: "Linki & Kontakt"
     },
-    en: {
-        subtitle: "Electrical Engineer & Programmer",
-        bio: "Combining the precision of electrical systems with modern code. I build efficient solutions and dominate the Minecraft PvP world.",
-        contactBtn: "Contact",
-        card1Title: "Electrical Engineering",
-        card1Desc: "Professional approach to circuits, power systems, and hardware design. I blend engineering theory with hands-on practice.",
-        card2Title: "Programming",
-        card2Desc: "Clean code, automation, and building modern websites and web apps based on cutting-edge technologies.",
-        mcDesc: "I hold an <span class='text-white font-bold bg-accent/20 border border-accent/30 px-2 py-0.5 rounded'>HT3 (High-Tier 3)</span> rank in Minecraft Crystal PvP mechanics. Reflexes, positioning, and advanced combos hold no secrets from me.",
-        contactTitle: "Get in Touch",
-        contactSubtitle: "Looking for someone for a project, want to chat about tech, or test your skills in PvP? Feel free to reach out!"
+    uk: {
+        subtitle: "Electrical Engineer & Developer",
+        bio: "Building modern code, designing systems, and focusing on optimizations. Welcome to my digital world.",
+        skills_eng_title: "Electrical Engineering",
+        skills_eng_desc: "Engineering background, circuit design, automation, and practical hardware knowledge.",
+        skills_dev_title: "Programming & Web",
+        skills_dev_desc: "Building applications, modern webdev, clean code standards, and fast deployment via Cloudflare.",
+        mc_title: "Minecraft PvP",
+        mc_subtitle: "Crystal PvP Experience",
+        mc_desc: "Holding the HT3 rank in the Crystal PvP scene. High reflexes, settings optimization, and countless matches played.",
+        links_title: "Links & Contact"
     }
 };
 
-function setLanguage(lang) {
-    const btnPl = document.getElementById('btn-pl');
-    const btnEn = document.getElementById('btn-en');
-
-    if (lang === 'pl') {
-        btnPl.className = "flex items-center gap-2 px-3 py-1.5 rounded-full text-xs font-semibold transition-all bg-accent text-white shadow-md";
-        btnEn.className = "flex items-center gap-2 px-3 py-1.5 rounded-full text-xs font-semibold transition-all text-zinc-400 hover:text-white";
-    } else {
-        btnEn.className = "flex items-center gap-2 px-3 py-1.5 rounded-full text-xs font-semibold transition-all bg-accent text-white shadow-md";
-        btnPl.className = "flex items-center gap-2 px-3 py-1.5 rounded-full text-xs font-semibold transition-all text-zinc-400 hover:text-white";
-    }
-
-    document.getElementById('txt-subtitle').innerText = translations[lang].subtitle;
-    document.getElementById('txt-bio').innerText = translations[lang].bio;
-    document.getElementById('txt-contact-btn').innerText = translations[lang].contactBtn;
-    document.getElementById('txt-card1-title').innerText = translations[lang].card1Title;
-    document.getElementById('txt-card1-desc').innerText = translations[lang].card1Desc;
-    document.getElementById('txt-card2-title').innerText = translations[lang].card2Title;
-    document.getElementById('txt-card2-desc').innerText = translations[lang].card2Desc;
-    document.getElementById('js-mc-desc'] // dynamic injection handled safely below
-    document.getElementById('txt-contact-title').innerText = translations[lang].contactTitle;
-    document.getElementById('txt-contact-subtitle').innerText = translations[lang].contactSubtitle;
-    
-    // Minecraft description update safety
-    document.querySelector('#txt-mc-desc').innerHTML = translations[lang].mcDesc;
+function switchLanguage(lang) {
+    const elements = document.querySelectorAll('[data-lang-key]');
+    elements.forEach(el => {
+        const key = el.getAttribute('data-lang-key');
+        if (translations[lang] && translations[lang][key]) {
+            el.textContent = translations[lang][key];
+        }
+    });
+    document.documentElement.setAttribute('lang', lang);
 }
