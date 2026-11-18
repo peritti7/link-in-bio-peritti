@@ -3,7 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Peritti – Portfolio & Dev</title>
+    <title>Peritti – Portfolio & Developer</title>
+    <!-- Tailwind CSS CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
         tailwind.config = {
@@ -11,123 +12,144 @@
             theme: {
                 extend: {
                     colors: {
-                        darkbg: '#090a0f',
-                        cardbg: '#13151f',
-                        accent: '#6366f1',
+                        darkbg: '#0a0a0c',
+                        cardbg: '#121216',
+                        accent: '#3b82f6',
+                        accenthover: '#2563eb'
+                    },
+                    fontFamily: {
+                        mono: ['JetBrains Mono', 'monospace']
                     }
                 }
             }
         }
     </script>
-    <link rel="stylesheet" href="style.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:ital,wght@0,300;0,400;0,700;1,400&display=swap');
+        body { font-family: 'JetBrains Mono', monospace; }
+        
+        /* Płynne animacje tła z płótnem */
+        #bg-canvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            pointer-events: none;
+        }
+
+        /* Własny styl paska przewijania */
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: #0a0a0c; }
+        ::-webkit-scrollbar-thumb { background: #27272a; border-radius: 4px; }
+        ::-webkit-scrollbar-thumb:hover { background: #3f3f46; }
+    </style>
 </head>
-<body class="bg-darkbg text-zinc-100 font-sans selection:bg-accent selection:text-white overflow-x-hidden relative">
+<body class="bg-darkbg text-zinc-100 min-h-screen flex flex-col justify-between selection:bg-blue-500 selection:text-white relative overflow-x-hidden">
 
-    <canvas id="bg-canvas" class="fixed inset-0 pointer-events-none z-0"></canvas>
+    <!-- Animowane tło w tle (Canvas JS) -->
+    <canvas id="bg-canvas"></canvas>
 
-    <div class="fixed top-6 right-6 z-50 flex items-center gap-2 bg-cardbg/80 backdrop-blur-md border border-zinc-800 p-1.5 rounded-full shadow-lg">
-        <button onclick="setLanguage('pl')" id="btn-pl" class="flex items-center gap-2 px-3 py-1.5 rounded-full text-xs font-semibold transition-all bg-accent text-white shadow-md">
-            <img src="/assets/pl.png" alt="PL" class="w-4 h-4 rounded-full object-cover"> PL
-        </button>
-        <button onclick="setLanguage('en')" id="btn-en" class="flex items-center gap-2 px-3 py-1.5 rounded-full text-xs font-semibold transition-all text-zinc-400 hover:text-white">
-            <img src="/assets/uk.png" alt="EN" class="w-4 h-4 rounded-full object-cover"> EN
-        </button>
-    </div>
+    <!-- Przełącznik języka (flagi) w prawym górnym rogu -->
+    <header class="w-full p-6 flex justify-end items-center max-w-4xl mx-auto z-10">
+        <div class="flex items-center gap-3 bg-cardbg/80 backdrop-blur-md border border-zinc-800 p-2 rounded-full shadow-lg">
+            <button onclick="switchLanguage('pl')" class="focus:outline-none transition transform hover:scale-110 active:scale-95" title="Polski">
+                <img src="/assets/pl.png" alt="PL" class="w-7 h-7 rounded-full object-cover border border-zinc-700">
+            </button>
+            <button onclick="switchLanguage('uk')" class="focus:outline-none transition transform hover:scale-110 active:scale-95" title="English">
+                <img src="/assets/uk.png" alt="UK" class="w-7 h-7 rounded-full object-cover border border-zinc-700">
+            </button>
+        </div>
+    </header>
 
-    <div class="relative z-10 max-w-4xl mx-auto px-6 py-16 flex flex-col items-center">
-
-        <section class="min-h-[85vh] flex flex-col items-center justify-center text-center w-full">
-            <div class="relative mb-6 group">
-                <div class="absolute -inset-1 bg-gradient-to-r from-indigo-500 to-purple-600 rounded-full blur-md opacity-75 group-hover:opacity-100 transition duration-500 animate-pulse"></div>
-                <img src="/assets/avatar.jpeg" alt="Peritti Avatar" class="relative w-32 h-32 rounded-full object-cover border-2 border-zinc-800 shadow-2xl">
+    <!-- Główna zawartość strony -->
+    <main class="w-full max-w-3xl mx-auto px-4 py-8 flex flex-col items-center gap-12 z-10">
+        
+        <!-- Sekcja Hero (Avatar, Nick, Rola) -->
+        <section class="flex flex-col items-center text-center animate-fade-in">
+            <div class="relative group mb-6">
+                <div class="absolute -inset-1 bg-gradient-to-r from-blue-600 to-indigo-600 rounded-full blur opacity-75 group-hover:opacity-100 transition duration-500"></div>
+                <img src="/assets/avatar.jpeg" alt="Peritti Avatar" class="relative w-32 h-32 rounded-full object-cover border-2 border-zinc-800 shadow-2xl transform transition duration-500 hover:scale-105">
             </div>
-
-            <h1 class="text-5xl md:text-6xl font-black tracking-tight mb-3 bg-gradient-to-r from-white via-zinc-200 to-zinc-400 bg-clip-text text-transparent">
-                Peritti
-            </h1>
-            <p id="txt-subtitle" class="text-lg md:text-xl text-accent font-medium mb-6">
-                Inżynier Elektryk & Programista
+            
+            <h1 class="text-4xl md:text-5xl font-bold tracking-tight text-white mb-2">Peritti</h1>
+            <p class="text-blue-400 font-medium text-lg mb-4" data-lang-key="subtitle">Inżynier Elektryk & Programista</p>
+            <p class="text-zinc-400 max-w-md text-sm leading-relaxed" data-lang-key="bio">
+                Tworzę nowoczesny kod, projektuję systemy i spędzam czas na optymalizacjach. Witaj w moim cyfrowym świecie.
             </p>
-            <p id="txt-bio" class="max-w-xl text-zinc-400 text-sm md:text-base leading-relaxed mb-10">
-                Połączenie precyzji systemów elektrycznych z nowoczesnym kodem. Tworzę wydajne rozwiązania i dominuję w świecie Minecraft PvP.
-            </p>
-
-            <div class="flex flex-wrap justify-center gap-4">
-                <a href="https://github.com/peritti7" target="_blank" class="glass-btn flex items-center gap-3 px-6 py-3 rounded-xl bg-cardbg border border-zinc-800 text-zinc-200 hover:border-accent transition-all duration-300 shadow-lg">
-                    <i class="fab fa-github text-lg"></i> GitHub
-                </a>
-                <a href="#contact" class="glass-btn flex items-center gap-3 px-6 py-3 rounded-xl bg-accent text-white hover:bg-accent/90 transition-all duration-300 shadow-lg shadow-accent/20">
-                    <i class="fas fa-paper-plane"></i> <span id="txt-contact-btn">Kontakt</span>
-                </a>
-            </div>
         </section>
 
-        <section class="w-full py-16 grid grid-cols-1 md:grid-cols-2 gap-6">
-            <div class="card p-8 rounded-2xl bg-cardbg/60 backdrop-blur-md border border-zinc-800/80 shadow-xl transition-all duration-300 hover:border-accent/50">
-                <div class="w-12 h-12 rounded-xl bg-accent/10 border border-accent/20 flex items-center justify-center text-accent mb-6 text-xl">
-                    <i class="fas fa-bolt"></i>
-                </div>
-                <h3 id="txt-card1-title" class="text-xl font-bold mb-3">Inżynieria Elektryczna</h3>
-                <p id="txt-card1-desc" class="text-zinc-400 text-sm leading-relaxed">
-                    Profesjonalne podejście do układów, systemów zasilania oraz projektowania sprzętowego. Łączę teorię inżynieryjną z praktyką.
+        <!-- Sekcja Umiejętności / O Mnie -->
+        <section class="w-full grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div class="bg-cardbg/90 backdrop-blur-xl border border-zinc-800/80 p-6 rounded-2xl shadow-xl transition duration-300 hover:border-zinc-700 hover:-translate-y-1">
+                <div class="text-blue-400 text-xl mb-3">⚡</div>
+                <h3 class="text-lg font-bold text-white mb-2" data-lang-key="skills_eng_title">Inżynieria Elektryczna</h3>
+                <p class="text-zinc-400 text-sm leading-relaxed" data-lang-key="skills_eng_desc">
+                    Wykształcenie inżynierskie, projektowanie układów, automatyka i praktyczna wiedza sprzętowa.
                 </p>
             </div>
 
-            <div class="card p-8 rounded-2xl bg-cardbg/60 backdrop-blur-md border border-zinc-800/80 shadow-xl transition-all duration-300 hover:border-accent/50">
-                <div class="w-12 h-12 rounded-xl bg-accent/10 border border-accent/20 flex items-center justify-center text-accent mb-6 text-xl">
-                    <i class="fas fa-code"></i>
-                </div>
-                <h3 id="txt-card2-title" class="text-xl font-bold mb-3">Programowanie</h3>
-                <p id="txt-card2-desc" class="text-zinc-400 text-sm leading-relaxed">
-                    Czysty kod, automatyzacja, tworzenie nowoczesnych stron i aplikacji webowych opartych o najnowsze technologie.
+            <div class="bg-cardbg/90 backdrop-blur-xl border border-zinc-800/80 p-6 rounded-2xl shadow-xl transition duration-300 hover:border-zinc-700 hover:-translate-y-1">
+                <div class="text-blue-400 text-xl mb-3">💻</div>
+                <h3 class="text-lg font-bold text-white mb-2" data-lang-key="skills_dev_title">Programowanie & Web</h3>
+                <p class="text-zinc-400 text-sm leading-relaxed" data-lang-key="skills_dev_desc">
+                    Tworzenie aplikacji, nowoczesny webdev, dbałość o czystość kodu oraz szybki deployment przez Cloudflare.
                 </p>
             </div>
         </section>
 
-        <section class="w-full py-16">
-            <div class="card relative p-8 md:p-12 rounded-3xl bg-gradient-to-br from-cardbg/90 to-zinc-900/90 backdrop-blur-md border border-zinc-800 shadow-2xl overflow-hidden">
-                <div class="absolute -right-10 -bottom-10 text-9xl text-accent/5 pointer-events-none font-bold">
-                    <i class="fas fa-gamepad"></i>
+        <!-- Sekcja Osiągnięć / Gaming (Minecraft) -->
+        <section class="w-full bg-cardbg/90 backdrop-blur-xl border border-zinc-800/80 p-6 rounded-2xl shadow-xl transition duration-300 hover:border-zinc-700">
+            <div class="flex items-center gap-4 mb-4">
+                <div class="w-10 h-10 rounded-xl bg-blue-500/10 border border-blue-500/20 flex items-center justify-center text-blue-400 font-bold">⚔️</div>
+                <div>
+                    <h3 class="text-lg font-bold text-white" data-lang-key="mc_title">Minecraft PvP</h3>
+                    <p class="text-xs text-zinc-500" data-lang-key="mc_subtitle">Crystal PvP Experience</p>
                 </div>
-                <div class="flex items-center gap-4 mb-6">
-                    <div class="w-12 h-12 rounded-xl bg-indigo-500/10 border border-indigo-500/20 flex items-center justify-center text-indigo-400 text-xl">
-                        <i class="fas fa-shield-alt"></i>
-                    </div>
-                    <div>
-                        <span class="text-xs uppercase tracking-widest text-indigo-400 font-bold">Minecraft PvP</span>
-                        <h3 class="text-2xl font-black">Crystal PvP Master</h3>
-                    </div>
-                </div>
-                <p id="txt-mc-desc" class="text-zinc-300 text-base leading-relaxed max-w-2xl">
-                    Posiadam rangę <span class="text-white font-bold bg-accent/20 border border-accent/30 px-2 py-0.5 rounded">HT3 (High-Tier 3)</span> w mechanice Crystal PvP w Minecrafcie. Refleks, pozycjonowanie i zaawansowane comba nie mają dla mnie tajemnic.
-                </p>
             </div>
-        </section>
-
-        <section id="contact" class="w-full py-16 text-center">
-            <h2 id="txt-contact-title" class="text-3xl font-bold mb-4">Połącz się ze mną</h2>
-            <p id="txt-contact-subtitle" class="text-zinc-400 mb-8 max-w-md mx-auto text-sm">
-                Szukasz kogoś do projektu, chcesz pogadać o technologii albo sprawdzić się w potyczce PvP? Pisz śmiało!
+            <p class="text-zinc-300 text-sm leading-relaxed mb-4" data-lang-key="mc_desc">
+                Posiadam rangę <strong class="text-white font-semibold">HT3</strong> na scenie Crystal PvP. Wysoki poziom refleksu, optymalizacja ustawień i setki stoczonych walk.
             </p>
-            <div class="inline-flex items-center gap-4 px-6 py-4 rounded-2xl bg-cardbg border border-zinc-800 shadow-xl">
-                <div class="w-10 h-10 rounded-full bg-indigo-600 flex items-center justify-center text-white text-lg">
-                    <i class="fab fa-discord"></i>
-                </div>
-                <div class="text-left">
-                    <span class="text-xs text-zinc-500 block">Discord Tag</span>
-                    <span class="text-sm font-bold text-zinc-200">peritti28</span>
-                </div>
+            <div class="flex flex-wrap gap-2">
+                <span class="text-xs bg-zinc-800 text-zinc-300 px-3 py-1 rounded-full border border-zinc-700">Crystal PvP</span>
+                <span class="text-xs bg-zinc-800 text-zinc-300 px-3 py-1 rounded-full border border-zinc-700">High Tier 3</span>
+                <span class="text-xs bg-zinc-800 text-zinc-300 px-3 py-1 rounded-full border border-zinc-700">Netherite / End</span>
             </div>
         </section>
 
-        <footer class="w-full py-12 border-t border-zinc-900 text-center text-xs text-zinc-500 flex flex-col gap-2">
-            <p>peritti.pages.dev &bull; Wszelkie prawa zastrzeżone &copy; 2026</p>
-            <p class="text-zinc-600">Designed with pure code for maximum performance.</p>
-        </footer>
+        <!-- Sekcja Linków / Kontaktu -->
+        <section class="w-full flex flex-col gap-3">
+            <h3 class="text-xs uppercase tracking-wider text-zinc-500 font-bold mb-1" data-lang-key="links_title">Linki & Kontakt</h3>
+            
+            <a href="https://github.com/peritti7" target="_blank" rel="noopener noreferrer" class="group flex items-center justify-between p-4 bg-cardbg/80 hover:bg-zinc-800/90 border border-zinc-800 hover:border-zinc-700 rounded-xl transition-all duration-300 shadow-lg transform hover:-translate-y-0.5">
+                <div class="flex items-center gap-3">
+                    <span class="text-lg">🐙</span>
+                    <span class="font-medium text-zinc-200 group-hover:text-white">GitHub</span>
+                </div>
+                <span class="text-xs text-zinc-400 group-hover:text-blue-400 transition">github.com/peritti7 &rarr;</span>
+            </a>
 
-    </div>
+            <div class="flex items-center justify-between p-4 bg-cardbg/80 border border-zinc-800 rounded-xl shadow-lg">
+                <div class="flex items-center gap-3">
+                    <span class="text-lg">💬</span>
+                    <span class="font-medium text-zinc-200">Discord</span>
+                </div>
+                <span class="text-xs text-blue-400 font-mono bg-blue-500/10 px-3 py-1 rounded-lg border border-blue-500/20">peritti28</span>
+            </div>
+        </section>
 
+    </main>
+
+    <!-- Stopka -->
+    <footer class="w-full border-t border-zinc-900 mt-20 py-8 px-4 text-center z-10">
+        <div class="max-w-4xl mx-auto flex flex-col md:flex-row justify-between items-center gap-4 text-xs text-zinc-500">
+            <p>&copy; <span id="current-year"></span> Peritti. Wszelkie prawa zastrzeżone.</p>
+            <p class="text-zinc-600 font-mono">peritti.pages.dev</p>
+        </div>
+    </footer>
+
+    <!-- Podpięty JavaScript -->
     <script src="script.js"></script>
 </body>
 </html>
