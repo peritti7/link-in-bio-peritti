@@ -3,15 +3,12 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>peritti28 | Portfolio</title>
+    <title>peritti | Portfolio</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap');
         body {
             font-family: 'Plus Jakarta Sans', sans-serif;
-            background-color: #09090b;
-            color: #f4f4f5;
-            overflow-x: hidden;
         }
         #bg-canvas {
             position: fixed;
@@ -19,12 +16,13 @@
             left: 0;
             width: 100%;
             height: 100%;
+            z-index: -1;
             pointer-events: none;
-            z-index: 0;
         }
         .glass-card {
-            background: rgba(24, 24, 27, 0.75);
-            backdrop-filter: blur(12px);
+            background: rgba(18, 18, 24, 0.75);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
             border: 1px solid rgba(255, 255, 255, 0.08);
         }
         .btn-hover {
@@ -32,72 +30,58 @@
         }
         .btn-hover:hover {
             transform: translateY(-2px);
-            border-color: rgba(16, 185, 129, 0.4);
-            box-shadow: 0 10px 25px -5px rgba(16, 185, 129, 0.15);
+            box-shadow: 0 10px 25px -5px rgba(59, 130, 246, 0.25);
+            border-color: rgba(59, 130, 246, 0.5);
         }
     </style>
 </head>
-<body class="min-h-screen flex items-center justify-center p-4 relative">
+<body class="bg-[#09090b] text-zinc-100 min-h-screen flex items-center justify-center p-4 relative overflow-x-hidden">
 
     <canvas id="bg-canvas"></canvas>
 
-    <div class="absolute top-6 right-6 z-20 flex gap-2">
-        <button onclick="setLang('pl')" id="btn-pl" class="w-9 h-9 rounded-full overflow-hidden border-2 border-emerald-500 transition shadow-lg focus:outline-none">
-            <img src="assets/pl.png" alt="PL" class="w-full h-full object-cover">
+    <div class="absolute top-6 right-6 z-20 flex items-center gap-2 bg-zinc-900/80 border border-zinc-800 p-1.5 rounded-full shadow-lg backdrop-blur-md">
+        <button onclick="setLanguage('pl')" id="btn-pl" class="flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-semibold transition bg-blue-600 text-white shadow-sm">
+            <img src="pl.png" alt="PL" class="w-4 h-4 rounded-full object-cover"> PL
         </button>
-        <button onclick="setLang('en')" id="btn-en" class="w-9 h-9 rounded-full overflow-hidden border-2 border-zinc-700 opacity-60 hover:opacity-100 transition shadow-lg focus:outline-none">
-            <img src="assets/uk.png" alt="EN" class="w-full h-full object-cover">
+        <button onclick="setLanguage('en')" id="btn-en" class="flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-semibold transition text-zinc-400 hover:text-white">
+            <img src="uk.png" alt="EN" class="w-4 h-4 rounded-full object-cover"> EN
         </button>
     </div>
 
-    <div class="max-w-md w-full glass-card rounded-2xl p-6 sm:p-8 shadow-2xl relative z-10">
+    <div class="max-w-md w-full glass-card rounded-3xl p-8 shadow-2xl relative z-10 my-12">
         
-        <div class="flex flex-col items-center text-center mb-6">
-            <div class="relative mb-4 group">
-                <div class="absolute -inset-0.5 bg-gradient-to-r from-emerald-500 to-cyan-500 rounded-full blur opacity-50 group-hover:opacity-100 transition duration-500"></div>
-                <img src="assets/avatar.jpeg" alt="Avatar" class="relative w-24 h-24 rounded-full object-cover border-2 border-zinc-800 shadow-xl">
+        <div class="text-center mb-8">
+            <div class="relative w-28 h-28 mx-auto mb-5 group">
+                <div class="absolute -inset-0.5 bg-gradient-to-r from-blue-500 to-indigo-500 rounded-full blur opacity-50 group-hover:opacity-100 transition duration-500"></div>
+                <img src="avatar.jpeg" alt="Avatar" class="relative w-28 h-28 rounded-full object-cover border-2 border-zinc-800 shadow-inner">
             </div>
-            
-            <h1 class="text-2xl font-bold tracking-tight text-white">peritti28</h1>
-            
-            <div class="flex flex-wrap justify-center gap-2 mt-2">
-                <span id="badge-dev" class="text-xs bg-emerald-500/10 text-emerald-400 font-medium px-3 py-1 rounded-full border border-emerald-500/20">Programista</span>
-                <span id="badge-eng" class="text-xs bg-cyan-500/10 text-cyan-400 font-medium px-3 py-1 rounded-full border border-cyan-500/20">Elektryk Inżynier</span>
+            <h1 class="text-2xl font-bold tracking-tight text-white">peritti</h1>
+            <p class="text-xs font-medium text-blue-400 mt-1 uppercase tracking-widest" data-translate="role">Programista & Elektryk Inżynier</p>
+        </div>
+
+        <div class="grid grid-cols-2 gap-3 mb-6">
+            <div class="bg-zinc-900/60 border border-zinc-800/80 p-3.5 rounded-2xl text-center">
+                <span class="block text-[10px] uppercase font-bold text-zinc-500 tracking-wider mb-1" data-translate="skill1_title">Minecraft</span>
+                <span class="text-sm font-semibold text-zinc-200">HT3 Crystal PvP</span>
             </div>
-            
-            <p id="desc-text" class="text-sm text-zinc-400 mt-3 leading-relaxed">
-                Pasjonat technologii, programowania i elektroniki. Posiadacz rangi HT3 na Crystal PvP w Minecraft.
-            </p>
+            <div class="bg-zinc-900/60 border border-zinc-800/80 p-3.5 rounded-2xl text-center">
+                <span class="block text-[10px] uppercase font-bold text-zinc-500 tracking-wider mb-1" data-translate="skill2_title">Discord</span>
+                <span id="discord-tag" class="text-sm font-semibold text-blue-400 cursor-pointer hover:underline" onclick="copyDiscord()">peritti28</span>
+            </div>
         </div>
 
         <div class="space-y-3">
-            <a href="https://github.com/peritti7" target="_blank" class="btn-hover flex items-center justify-between p-3.5 bg-zinc-900/80 border border-zinc-800 rounded-xl">
-                <div class="flex items-center gap-3">
-                    <div class="w-8 h-8 rounded-lg bg-zinc-800 flex items-center justify-center text-white font-bold text-sm">GH</div>
-                    <span class="font-medium text-zinc-200 text-sm">GitHub</span>
-                </div>
+            <a href="https://github.com/peritti7" target="_blank" class="btn-hover flex items-center justify-between p-4 bg-zinc-900/60 border border-zinc-800 rounded-2xl text-sm font-medium">
+                <span class="flex items-center gap-3">
+                    <svg class="w-5 h-5 text-zinc-400" fill="currentColor" viewBox="0 0 24 24"><path fill-rule="evenodd" clip-rule="evenodd" d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.53 1.032 1.53 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0022 12.017C22 6.484 17.522 2 12 2z"/></svg>
+                    GitHub
+                </span>
                 <span class="text-xs text-zinc-500 font-mono">peritti7 &rarr;</span>
             </a>
-
-            <div class="btn-hover flex items-center justify-between p-3.5 bg-zinc-900/80 border border-zinc-800 rounded-xl cursor-default">
-                <div class="flex items-center gap-3">
-                    <div class="w-8 h-8 rounded-lg bg-indigo-500/10 text-indigo-400 flex items-center justify-center font-bold text-sm">DC</div>
-                    <span class="font-medium text-zinc-200 text-sm">Discord</span>
-                </div>
-                <span class="text-xs text-emerald-400 font-mono bg-emerald-500/10 px-2 py-1 rounded">peritti28</span>
-            </div>
-
-            <div class="btn-hover flex items-center justify-between p-3.5 bg-zinc-900/80 border border-zinc-800 rounded-xl cursor-default">
-                <div class="flex items-center gap-3">
-                    <div class="w-8 h-8 rounded-lg bg-amber-500/10 text-amber-400 flex items-center justify-center font-bold text-sm">MC</div>
-                    <span id="mc-label" class="font-medium text-zinc-200 text-sm">Crystal PvP</span>
-                </div>
-                <span class="text-xs text-amber-400 font-mono bg-amber-500/10 px-2 py-1 rounded">HT3</span>
-            </div>
         </div>
 
-        <div class="text-center mt-6 pt-4 border-t border-zinc-800/80 text-xs text-zinc-500">
-            &copy; 2026 peritti28 &bull; js.org
+        <div class="text-center mt-8 pt-4 border-t border-zinc-800/60 text-xs text-zinc-500 font-mono">
+            Cloudflare Pages &bull; js.org
         </div>
 
     </div>
@@ -105,88 +89,113 @@
     <script>
         const canvas = document.getElementById('bg-canvas');
         const ctx = canvas.getContext('2d');
-        
-        let width, height;
-        let particles = [];
+        let particlesArray = [];
 
-        function resize() {
-            width = canvas.width = window.innerWidth;
-            height = canvas.height = window.innerHeight;
+        function resizeCanvas() {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
         }
+        window.addEventListener('resize', resizeCanvas);
+        resizeCanvas();
 
-        window.addEventListener('resize', resize);
-        resize();
-
-        for (let i = 0; i < 35; i++) {
-            particles.push({
-                x: Math.random() * width,
-                y: Math.random() * height,
-                vx: (Math.random() - 0.5) * 0.4,
-                vy: (Math.random() - 0.5) * 0.4,
-                radius: Math.random() * 1.5 + 0.5
-            });
-        }
-
-        function animate() {
-            ctx.clearRect(0, 0, width, height);
-            ctx.fillStyle = 'rgba(16, 185, 129, 0.15)';
-            ctx.strokeStyle = 'rgba(16, 185, 129, 0.05)';
-
-            particles.forEach((p, index) => {
-                p.x += p.vx;
-                p.y += p.vy;
-
-                if (p.x < 0 || p.x > width) p.vx *= -1;
-                if (p.y < 0 || p.y > height) p.vy *= -1;
-
+        class Particle {
+            constructor() {
+                this.x = Math.random() * canvas.width;
+                this.y = Math.random() * canvas.height;
+                this.size = Math.random() * 1.5 + 0.5;
+                this.speedX = (Math.random() - 0.5) * 0.4;
+                this.speedY = (Math.random() - 0.5) * 0.4;
+            }
+            update() {
+                this.x += this.speedX;
+                this.y += this.speedY;
+                if (this.x < 0 || this.x > canvas.width) this.speedX *= -1;
+                if (this.y < 0 || this.y > canvas.height) this.speedY *= -1;
+            }
+            draw() {
+                ctx.fillStyle = 'rgba(59, 130, 246, 0.25)';
                 ctx.beginPath();
-                ctx.arc(p.x, p.y, p.radius, 0, Math.PI * 2);
+                ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
                 ctx.fill();
+            }
+        }
 
-                for (let j = index + 1; j < particles.length; j++) {
-                    const p2 = particles[j];
-                    const dist = Math.hypot(p.x - p2.x, p.y - p2.y);
-                    if (dist < 120) {
+        function initParticles() {
+            particlesArray = [];
+            let count = (canvas.width * canvas.height) / 12000;
+            for (let i = 0; i < count; i++) {
+                particlesArray.push(new Particle());
+            }
+        }
+        initParticles();
+
+        function animateParticles() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            for (let i = 0; i < particlesArray.length; i++) {
+                particlesArray[i].update();
+                particlesArray[i].draw();
+                for (let j = i; j < particlesArray.length; j++) {
+                    const dx = particlesArray[i].x - particlesArray[j].x;
+                    const dy = particlesArray[i].y - particlesArray[j].y;
+                    const distance = Math.sqrt(dx * dx + dy * dy);
+                    if (distance < 100) {
+                        ctx.strokeStyle = `rgba(59, 130, 246, ${0.1 * (1 - distance / 100)})`;
+                        ctx.lineWidth = 0.5;
                         ctx.beginPath();
-                        ctx.moveTo(p.x, p.y);
-                        ctx.lineTo(p2.x, p2.y);
+                        ctx.moveTo(particlesArray[i].x, particlesArray[i].y);
+                        ctx.lineTo(particlesArray[j].x, particlesArray[j].y);
                         ctx.stroke();
                     }
                 }
-            });
-
-            requestAnimationFrame(animate);
+            }
+            requestAnimationFrame(animateParticles);
         }
-        animate();
+        animateParticles();
+
+        function copyDiscord() {
+            navigator.clipboard.writeText("peritti28");
+            const tag = document.getElementById('discord-tag');
+            const originalText = tag.innerText;
+            tag.innerText = currentLang === 'pl' ? "Skopiowano!" : "Copied!";
+            setTimeout(() => {
+                tag.innerText = originalText;
+            }, 1500);
+        }
 
         const translations = {
             pl: {
-                dev: "Programista",
-                eng: "Elektryk Inżynier",
-                desc: "Pasjonat technologii, programowania i elektroniki. Posiadacz rangi HT3 na Crystal PvP w Minecraft.",
-                mc: "Crystal PvP"
+                role: "Programista & Elektryk Inżynier",
+                skill1_title: "Minecraft",
+                skill2_title: "Discord"
             },
             en: {
-                dev: "Developer",
-                eng: "Electrical Engineer",
-                desc: "Passionate about technology, programming and electronics. HT3 rank holder in Minecraft Crystal PvP.",
-                mc: "Crystal PvP"
+                role: "Developer & Electrical Engineer",
+                skill1_title: "Minecraft",
+                skill2_title: "Discord"
             }
         };
 
-        function setLang(lang) {
-            document.getElementById('badge-dev').innerText = translations[lang].dev;
-            document.getElementById('badge-eng').innerText = translations[lang].eng;
-            document.getElementById('desc-text').innerText = translations[lang].desc;
-            document.getElementById('mc-label').innerText = translations[lang].mc;
+        let currentLang = 'pl';
 
+        function setLanguage(lang) {
+            currentLang = lang;
+            const btnPl = document.getElementById('btn-pl');
+            const btnEn = document.getElementById('btn-en');
+            
             if (lang === 'pl') {
-                document.getElementById('btn-pl').className = "w-9 h-9 rounded-full overflow-hidden border-2 border-emerald-500 transition shadow-lg focus:outline-none";
-                document.getElementById('btn-en').className = "w-9 h-9 rounded-full overflow-hidden border-2 border-zinc-700 opacity-60 hover:opacity-100 transition shadow-lg focus:outline-none";
+                btnPl.className = "flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-semibold transition bg-blue-600 text-white shadow-sm";
+                btnEn.className = "flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-semibold transition text-zinc-400 hover:text-white";
             } else {
-                document.getElementById('btn-en').className = "w-9 h-9 rounded-full overflow-hidden border-2 border-emerald-500 transition shadow-lg focus:outline-none";
-                document.getElementById('btn-pl').className = "w-9 h-9 rounded-full overflow-hidden border-2 border-zinc-700 opacity-60 hover:opacity-100 transition shadow-lg focus:outline-none";
+                btnEn.className = "flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-semibold transition bg-blue-600 text-white shadow-sm";
+                btnPl.className = "flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-semibold transition text-zinc-400 hover:text-white";
             }
+
+            document.querySelectorAll('[data-translate]').forEach(el => {
+                const key = el.getAttribute('data-translate');
+                if (translations[lang][key]) {
+                    el.innerText = translations[lang][key];
+                }
+            });
         }
     </script>
 </body>
