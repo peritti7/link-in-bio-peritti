@@ -1,154 +1,133 @@
 <!DOCTYPE html>
-<html lang="pl" id="htmlRoot">
+<html lang="pl" class="dark">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Peritti – Portfolio</title>
+    <title>Peritti – Portfolio & Dev</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <style>
-        @import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&display=swap');
-        body { font-family: 'JetBrains Mono', monospace; }
-        .bg-canvas {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            pointer-events: none;
-            z-index: -1;
-        }
-    </style>
-</head>
-<body class="bg-zinc-950 text-zinc-100 min-h-screen flex items-center justify-center p-4 relative overflow-x-hidden">
-
-    <canvas id="bgCanvas" class="bg-canvas"></canvas>
-
-    <div class="absolute top-4 right-4 flex gap-2 z-10">
-        <button onclick="setLang('pl')" class="w-8 h-8 rounded-full overflow-hidden border border-zinc-700 hover:scale-110 transition shadow-lg">
-            <img src="./assets/pl.png" alt="PL" class="w-full h-full object-cover">
-        </button>
-        <button onclick="setLang('en')" class="w-8 h-8 rounded-full overflow-hidden border border-zinc-700 hover:scale-110 transition shadow-lg">
-            <img src="./assets/uk.png" alt="EN" class="w-full h-full object-cover">
-        </button>
-    </div>
-
-    <div class="max-w-md w-full bg-zinc-900/80 backdrop-blur-md border border-zinc-800 rounded-2xl p-6 shadow-2xl transition-all duration-300 hover:border-zinc-700">
-        
-        <div class="text-center mb-6">
-            <div class="w-24 h-24 rounded-full overflow-hidden border-2 border-emerald-500/50 mx-auto mb-4 shadow-lg shadow-emerald-500/10">
-                <img src="./assets/avatar.jpeg" alt="Peritti" class="w-full h-full object-cover">
-            </div>
-            <h1 class="text-2xl font-bold text-white tracking-wider">Peritti</h1>
-            <p id="txtRole" class="text-xs text-emerald-400 mt-1 font-semibold uppercase tracking-widest">Programista & Inżynier Elektryk</p>
-            <p id="txtDesc" class="text-sm text-zinc-400 mt-2">Tworzę systemy i koduję. Po godzinach gracz Minecraft Crystal PvP (HT3).</p>
-        </div>
-
-        <div class="mb-6 space-y-2">
-            <div class="flex items-center justify-between p-3 bg-zinc-800/40 border border-zinc-800 rounded-xl text-sm">
-                <span id="txtMcLabel" class="text-zinc-400">Minecraft PvP</span>
-                <span class="text-emerald-400 font-bold">HT3 Crystal PvP</span>
-            </div>
-            <div class="flex items-center justify-between p-3 bg-zinc-800/40 border border-zinc-800 rounded-xl text-sm">
-                <span class="text-zinc-400">Discord</span>
-                <span class="text-zinc-200 font-mono">peritti28</span>
-            </div>
-        </div>
-
-        <div class="space-y-3">
-            <a href="https://github.com/peritti7" target="_blank" class="flex items-center justify-between p-3.5 bg-zinc-800/50 hover:bg-zinc-800 border border-zinc-700/50 hover:border-emerald-500/50 rounded-xl transition-all duration-300 group shadow-md">
-                <span class="font-medium text-zinc-200 group-hover:text-emerald-400 transition-colors">GitHub</span>
-                <span class="text-xs text-zinc-400 group-hover:translate-x-1 transition-transform">@peritti7 &rarr;</span>
-            </a>
-
-            <div class="flex items-center justify-between p-3.5 bg-zinc-800/50 border border-zinc-700/50 rounded-xl text-sm">
-                <span class="font-medium text-zinc-200">Discord Contact</span>
-                <span class="text-xs text-zinc-400">peritti28</span>
-            </div>
-        </div>
-
-        <div class="text-center mt-6 pt-4 border-t border-zinc-800/80 text-xs text-zinc-500">
-            Cloudflare Pages &bull; js.org
-        </div>
-
-    </div>
-
     <script>
-        const translations = {
-            pl: {
-                role: "Programista & Inżynier Elektryk",
-                desc: "Tworzę systemy i koduję. Po godzinach gracz Minecraft Crystal PvP (HT3).",
-                mc: "Minecraft PvP"
-            },
-            en: {
-                role: "Developer & Electrical Engineer",
-                desc: "Building systems and writing code. After hours Minecraft Crystal PvP player (HT3).",
-                mc: "Minecraft PvP"
-            }
-        };
-
-        function setLang(lang) {
-            document.getElementById('htmlRoot').lang = lang;
-            document.getElementById('txtRole').innerText = translations[lang].role;
-            document.getElementById('txtDesc').innerText = translations[lang].desc;
-            document.getElementById('txtMcLabel').innerText = translations[lang].mc;
-        }
-
-        const canvas = document.getElementById('bgCanvas');
-        const ctx = canvas.getContext('2d');
-        let particles = [];
-
-        function resize() {
-            canvas.width = window.innerWidth;
-            canvas.height = window.innerHeight;
-        }
-
-        window.addEventListener('resize', resize);
-        resize();
-
-        for (let i = 0; i < 35; i++) {
-            particles.push({
-                x: Math.random() * canvas.width,
-                y: Math.random() * canvas.height,
-                size: Math.random() * 2 + 1,
-                speedX: (Math.random() - 0.5) * 0.5,
-                speedY: (Math.random() - 0.5) * 0.5
-            });
-        }
-
-        function animate() {
-            ctx.clearRect(0, 0, canvas.width, canvas.height);
-            ctx.fillStyle = 'rgba(16, 185, 129, 0.15)';
-            ctx.strokeStyle = 'rgba(16, 185, 129, 0.05)';
-
-            particles.forEach((p, index) => {
-                p.x += p.speedX;
-                p.y += p.speedY;
-
-                if (p.x < 0) p.x = canvas.width;
-                if (p.x > canvas.width) p.x = 0;
-                if (p.y < 0) p.y = canvas.height;
-                if (p.y > canvas.height) p.y = 0;
-
-                ctx.beginPath();
-                ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
-                ctx.fill();
-
-                for (let j = index + 1; j < particles.length; j++) {
-                    let p2 = particles[j];
-                    let dist = Math.hypot(p.x - p2.x, p.y - p2.y);
-                    if (dist < 120) {
-                        ctx.beginPath();
-                        ctx.moveTo(p.x, p.y);
-                        ctx.lineTo(p2.x, p2.y);
-                        ctx.stroke();
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        darkbg: '#090a0f',
+                        cardbg: '#13151f',
+                        accent: '#6366f1',
                     }
                 }
-            });
-
-            requestAnimationFrame(animate);
+            }
         }
-
-        animate();
     </script>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body class="bg-darkbg text-zinc-100 font-sans selection:bg-accent selection:text-white overflow-x-hidden relative">
+
+    <canvas id="bg-canvas" class="fixed inset-0 pointer-events-none z-0"></canvas>
+
+    <div class="fixed top-6 right-6 z-50 flex items-center gap-2 bg-cardbg/80 backdrop-blur-md border border-zinc-800 p-1.5 rounded-full shadow-lg">
+        <button onclick="setLanguage('pl')" id="btn-pl" class="flex items-center gap-2 px-3 py-1.5 rounded-full text-xs font-semibold transition-all bg-accent text-white shadow-md">
+            <img src="/assets/pl.png" alt="PL" class="w-4 h-4 rounded-full object-cover"> PL
+        </button>
+        <button onclick="setLanguage('en')" id="btn-en" class="flex items-center gap-2 px-3 py-1.5 rounded-full text-xs font-semibold transition-all text-zinc-400 hover:text-white">
+            <img src="/assets/uk.png" alt="EN" class="w-4 h-4 rounded-full object-cover"> EN
+        </button>
+    </div>
+
+    <div class="relative z-10 max-w-4xl mx-auto px-6 py-16 flex flex-col items-center">
+
+        <section class="min-h-[85vh] flex flex-col items-center justify-center text-center w-full">
+            <div class="relative mb-6 group">
+                <div class="absolute -inset-1 bg-gradient-to-r from-indigo-500 to-purple-600 rounded-full blur-md opacity-75 group-hover:opacity-100 transition duration-500 animate-pulse"></div>
+                <img src="/assets/avatar.jpeg" alt="Peritti Avatar" class="relative w-32 h-32 rounded-full object-cover border-2 border-zinc-800 shadow-2xl">
+            </div>
+
+            <h1 class="text-5xl md:text-6xl font-black tracking-tight mb-3 bg-gradient-to-r from-white via-zinc-200 to-zinc-400 bg-clip-text text-transparent">
+                Peritti
+            </h1>
+            <p id="txt-subtitle" class="text-lg md:text-xl text-accent font-medium mb-6">
+                Inżynier Elektryk & Programista
+            </p>
+            <p id="txt-bio" class="max-w-xl text-zinc-400 text-sm md:text-base leading-relaxed mb-10">
+                Połączenie precyzji systemów elektrycznych z nowoczesnym kodem. Tworzę wydajne rozwiązania i dominuję w świecie Minecraft PvP.
+            </p>
+
+            <div class="flex flex-wrap justify-center gap-4">
+                <a href="https://github.com/peritti7" target="_blank" class="glass-btn flex items-center gap-3 px-6 py-3 rounded-xl bg-cardbg border border-zinc-800 text-zinc-200 hover:border-accent transition-all duration-300 shadow-lg">
+                    <i class="fab fa-github text-lg"></i> GitHub
+                </a>
+                <a href="#contact" class="glass-btn flex items-center gap-3 px-6 py-3 rounded-xl bg-accent text-white hover:bg-accent/90 transition-all duration-300 shadow-lg shadow-accent/20">
+                    <i class="fas fa-paper-plane"></i> <span id="txt-contact-btn">Kontakt</span>
+                </a>
+            </div>
+        </section>
+
+        <section class="w-full py-16 grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div class="card p-8 rounded-2xl bg-cardbg/60 backdrop-blur-md border border-zinc-800/80 shadow-xl transition-all duration-300 hover:border-accent/50">
+                <div class="w-12 h-12 rounded-xl bg-accent/10 border border-accent/20 flex items-center justify-center text-accent mb-6 text-xl">
+                    <i class="fas fa-bolt"></i>
+                </div>
+                <h3 id="txt-card1-title" class="text-xl font-bold mb-3">Inżynieria Elektryczna</h3>
+                <p id="txt-card1-desc" class="text-zinc-400 text-sm leading-relaxed">
+                    Profesjonalne podejście do układów, systemów zasilania oraz projektowania sprzętowego. Łączę teorię inżynieryjną z praktyką.
+                </p>
+            </div>
+
+            <div class="card p-8 rounded-2xl bg-cardbg/60 backdrop-blur-md border border-zinc-800/80 shadow-xl transition-all duration-300 hover:border-accent/50">
+                <div class="w-12 h-12 rounded-xl bg-accent/10 border border-accent/20 flex items-center justify-center text-accent mb-6 text-xl">
+                    <i class="fas fa-code"></i>
+                </div>
+                <h3 id="txt-card2-title" class="text-xl font-bold mb-3">Programowanie</h3>
+                <p id="txt-card2-desc" class="text-zinc-400 text-sm leading-relaxed">
+                    Czysty kod, automatyzacja, tworzenie nowoczesnych stron i aplikacji webowych opartych o najnowsze technologie.
+                </p>
+            </div>
+        </section>
+
+        <section class="w-full py-16">
+            <div class="card relative p-8 md:p-12 rounded-3xl bg-gradient-to-br from-cardbg/90 to-zinc-900/90 backdrop-blur-md border border-zinc-800 shadow-2xl overflow-hidden">
+                <div class="absolute -right-10 -bottom-10 text-9xl text-accent/5 pointer-events-none font-bold">
+                    <i class="fas fa-gamepad"></i>
+                </div>
+                <div class="flex items-center gap-4 mb-6">
+                    <div class="w-12 h-12 rounded-xl bg-indigo-500/10 border border-indigo-500/20 flex items-center justify-center text-indigo-400 text-xl">
+                        <i class="fas fa-shield-alt"></i>
+                    </div>
+                    <div>
+                        <span class="text-xs uppercase tracking-widest text-indigo-400 font-bold">Minecraft PvP</span>
+                        <h3 class="text-2xl font-black">Crystal PvP Master</h3>
+                    </div>
+                </div>
+                <p id="txt-mc-desc" class="text-zinc-300 text-base leading-relaxed max-w-2xl">
+                    Posiadam rangę <span class="text-white font-bold bg-accent/20 border border-accent/30 px-2 py-0.5 rounded">HT3 (High-Tier 3)</span> w mechanice Crystal PvP w Minecrafcie. Refleks, pozycjonowanie i zaawansowane comba nie mają dla mnie tajemnic.
+                </p>
+            </div>
+        </section>
+
+        <section id="contact" class="w-full py-16 text-center">
+            <h2 id="txt-contact-title" class="text-3xl font-bold mb-4">Połącz się ze mną</h2>
+            <p id="txt-contact-subtitle" class="text-zinc-400 mb-8 max-w-md mx-auto text-sm">
+                Szukasz kogoś do projektu, chcesz pogadać o technologii albo sprawdzić się w potyczce PvP? Pisz śmiało!
+            </p>
+            <div class="inline-flex items-center gap-4 px-6 py-4 rounded-2xl bg-cardbg border border-zinc-800 shadow-xl">
+                <div class="w-10 h-10 rounded-full bg-indigo-600 flex items-center justify-center text-white text-lg">
+                    <i class="fab fa-discord"></i>
+                </div>
+                <div class="text-left">
+                    <span class="text-xs text-zinc-500 block">Discord Tag</span>
+                    <span class="text-sm font-bold text-zinc-200">peritti28</span>
+                </div>
+            </div>
+        </section>
+
+        <footer class="w-full py-12 border-t border-zinc-900 text-center text-xs text-zinc-500 flex flex-col gap-2">
+            <p>peritti.pages.dev &bull; Wszelkie prawa zastrzeżone &copy; 2026</p>
+            <p class="text-zinc-600">Designed with pure code for maximum performance.</p>
+        </footer>
+
+    </div>
+
+    <script src="script.js"></script>
 </body>
 </html>
